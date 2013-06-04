@@ -7,17 +7,13 @@
 WESTON_VERSION = 1.1.0
 WESTON_SITE = http://wayland.freedesktop.org/releases/
 WESTON_SOURCE = weston-$(WESTON_VERSION).tar.xz
-#WESTON_VERSION = 354aaa47c122aa246443ab10626c0c1acee2f3af
-#WESTON_SITE = http://cgit.collabora.com/git/user/pq/weston.git/snapshot/
-#WESTON_SOURCE = weston-$(WESTON_VERSION).tar.gz
-#WESTON_AUTORECONF = YES
+WESTON_AUTORECONF = YES
 WESTON_LICENSE = MIT
 WESTON_LICENSE_FILES = COPYING
 
 WESTON_DEPENDENCIES = wayland libxkbcommon pixman libpng \
 	jpeg mtdev udev cairo
 WESTON_CONF_OPT = \
-	--disable-egl \
 	--disable-setuid-install \
 	--disable-xwayland \
 	--disable-xwayland-test \
@@ -29,6 +25,7 @@ WESTON_CONF_OPT = \
 	--disable-colord \
 	--disable-resize-optimization \
 	--disable-libunwind
+#	--disable-egl \
 
 ifeq ($(BR2_PACKAGE_RPI_USERLAND),y)
 WESTON_CONF_OPT += \
@@ -47,6 +44,13 @@ WESTON_CONF_OPT += --enable-fbdev-compositor
 else
 WESTON_CONF_OPT += --disable-fbdev-compositor
 endif
+
+
+WESTON_POST_INSTALL_TARGET_HOOKS = WESTON_COPY_REQUIRED_FILES
+
+define WESTON_COPY_REQUIRED_FILES
+	$(INSTALL) -D -m 0755 $(@D)/weston.ini $(TARGET_DIR)/root/.config/
+endef
 
 $(eval $(autotools-package))
 
