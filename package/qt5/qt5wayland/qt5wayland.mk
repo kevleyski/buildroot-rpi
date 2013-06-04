@@ -9,7 +9,7 @@ QT5WAYLAND_INSTALL_STAGING = YES
 define QT5WAYLAND_CONFIGURE_CMDS
 	-[ -f $(@D)/Makefile ] && $(MAKE) -C $(@D) distclean
 #	(cd $(@D) && $(HOST_DIR)/usr/bin/qmake)
-	(cd $(@D) && $(HOST_DIR)/usr/bin/qmake CONFIG+=wayland-compositor QT_WAYLAND_GL_CONFIG=egl)
+	(cd $(@D) && $(HOST_DIR)/usr/bin/qmake CONFIG+=wayland-compositor)
 endef
 
 define QT5WAYLAND_BUILD_CMDS
@@ -22,12 +22,12 @@ endef
 
 define QT5WAYLAND_INSTALL_TARGET_CMDS
 	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Compositor*.so* $(TARGET_DIR)/usr/lib
-	cp -dpf $(STAGING_DIR)/usr/plugins/platforms/libqwayland-brcm-egl.so $(TARGET_DIR)/usr/plugins/platforms/
+	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/platforms/libqwayland-brcm-egl.so $(TARGET_DIR)/usr/lib/qt/plugins/platforms/
 endef
 
 define QT5WAYLAND_UNINSTALL_TARGET_CMDS
 	-rm $(TARGET_DIR)/usr/lib/libQt5Compositor*.so*
-	-rm $(TARGET_DIR)/usr/plugins/platforms/libqwayland-brcm-egl.so
+	-rm $(TARGET_DIR)/usr/lib/qt/plugins/platforms/libqwayland-brcm-egl.so
 endef
 
 $(eval $(generic-package))
