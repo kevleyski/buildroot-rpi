@@ -49,6 +49,7 @@ endif
 WESTON_POST_INSTALL_TARGET_HOOKS = WESTON_COPY_REQUIRED_FILES
 
 define WESTON_COPY_REQUIRED_FILES
+	mkdir -p $(TARGET_DIR)/root/.config 
 	$(INSTALL) -D -m 0755 $(@D)/weston.ini $(TARGET_DIR)/root/.config/
 endef
 
